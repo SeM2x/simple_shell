@@ -8,9 +8,12 @@
 */
 void exec_cmd(char **command)
 {
+	char **env = environ;
+	char **path;
 	pid_t pid;
-	int status;
+	int status, i;
 
+	path = get_path(env);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -19,9 +22,13 @@ void exec_cmd(char **command)
 	}
 	if (pid == 0)
 	{
-		if (execve(command[0], command, NULL) < 0)
-			perror("execve");
+		for (i = 0; path[i] != NULL; i++)
+		{
+			execve(str_concat(path[i], command[0]), command, env);
+		}
+		perror("execve");
 		exit(1);
 	}
-	waitpid(pid, &status, 0);
+	else
+		waitpid(pid, &status, 0);
 }

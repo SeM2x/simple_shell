@@ -7,15 +7,20 @@
 */
 int main(void)
 {
-	char *av[2];
+	char command[100];
+	char **av;
 
-	av[0] = malloc(100 * sizeof(char));
-	av[1] = NULL;
 	while (1)
 	{
-		print_str("#hsh$ ");
-		scan_str(av[0], 100);
-		exec_cmd(av);
+		print_str("#simple_shell$ ");
+		scan_str(command, 100);
+		av = format(command, ' ');
+		if (av[0][0] != '\0')
+		{
+			if (strcmp(av[0], "exit") == 0)
+				exit(0);
+			exec_cmd(av);
+		}
 	}
 
 	return (0);

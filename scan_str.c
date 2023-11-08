@@ -9,6 +9,14 @@
 */
 void scan_str(char *str, unsigned int len)
 {
-	fgets(str, len, stdin);
+	if (fgets(str, len, stdin) == NULL)
+	{
+		if (feof(stdin))
+			print_str("\n");
+		else
+			perror("fgets");
+		exit(1);
+	}
+
 	str[strcspn(str, "\n")] = '\0';
 }
