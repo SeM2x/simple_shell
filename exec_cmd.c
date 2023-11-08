@@ -3,10 +3,11 @@
 /**
  * exec_cmd - executes a given command
  * @command: the command and its flags
+ * @main_arg: arg[0] of the main function
  *
  * Return: Void.
 */
-void exec_cmd(char **command)
+void exec_cmd(char **command, char *main_arg)
 {
 	char **env = environ;
 	char **path;
@@ -26,7 +27,7 @@ void exec_cmd(char **command)
 		{
 			execve(str_concat(path[i], command[0]), command, env);
 		}
-		perror("execve");
+		perror(main_arg);
 		exit(1);
 	}
 	else

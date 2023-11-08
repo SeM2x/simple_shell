@@ -12,7 +12,10 @@ void scan_str(char *str, unsigned int len)
 	if (fgets(str, len, stdin) == NULL)
 	{
 		if (feof(stdin))
-			print_str("\n");
+		{
+			if (isatty(STDIN_FILENO))
+				print_str("\n");
+		}
 		else
 			perror("fgets");
 		exit(1);
