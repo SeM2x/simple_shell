@@ -3,9 +3,11 @@
 #include <stddef.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <fcntl.h>
 #include <string.h>
 #include "main.h"
+#include <unistd.h>
 
 
 int main(int argc, char **argv, char **env) {
@@ -56,7 +58,7 @@ int main(int argc, char **argv, char **env) {
             if (!child)
                 execve(filepath, args, env); /* exec will cause the current executing process to switch to the new one, no need for break */
             else
-                waitpid(child);
+                waitpid(child, NULL, 0);
         }
     }
 
