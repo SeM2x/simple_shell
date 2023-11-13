@@ -6,9 +6,14 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <string.h>
-#include "main.h"
 #include <unistd.h>
+#include "main.h"
 
+
+void exit_out(int code)
+{
+	exit(code);
+}
 
 int main(int argc, char **argv, char **env) {
     char *line;
@@ -34,6 +39,19 @@ int main(int argc, char **argv, char **env) {
 
             if (!args)
                 continue;
+
+						/* handling special functions: exit, env */
+						if (!strcmp(line, "env"))
+						{
+							print_flattened_string(env);
+							continue;
+						}
+
+						if (!strcmp(line, "exit"))
+						{
+							printf("exiting ...\n");	
+							exit(0);
+						}
 
             filepath = get_file_path(parse_string(getenvvar("PATH", env) + strlen("PATH") + 1, ':'), args[0]);
             if (!filepath)

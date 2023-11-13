@@ -2,8 +2,19 @@
 
 char *strip(char *word)
 {
-    while(is_space(*word))
-        word++;
+		char *head;
 
-    return (word);
+    while(*word && is_space(*word))
+        word++;
+		
+		head = word;
+
+		while (*word)
+			word++;
+		word--;
+
+		while (is_space(*word))
+			*word-- = 0;
+
+    return (head);
 }
