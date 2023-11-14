@@ -12,7 +12,9 @@ int main(int argc, char **argv, char **env)
 {
 	char *line, *filepath, **args, *cwd;
 	size_t letter_count = 100, cwd_size = 50;
+	int status;
 
+	cwd = malloc(cwd_size * sizeof(char));
 	while (1)
 	{
 		filepath = NULL;
@@ -29,6 +31,16 @@ int main(int argc, char **argv, char **env)
 			args = parse_string(line, ' ');
 			if (!args)
 				continue;
+
+			/* here's the setenv buisness */
+			if (!strcmp("setenv", args[0]))
+			{
+				setvar(args[1], args[2], &env);
+				print_flattened_string(env);
+				continue;	
+			}
+
+
 			if (!strcmp(line, "env"))
 			{
 				print_flattened_string(env);
@@ -36,23 +48,32 @@ int main(int argc, char **argv, char **env)
 			}
 			if (!strcmp(args[0], "cd"))
 			{
-				printf("old: %s\n", getcwd(cwd, cwd_size));
+				getcwd(cwd, cwd_size);
 				if (args[1])
-					chdir(args[1]);
+				{
+					if (!strcmp(args[1], "-"))
+						status = chdir(getenvvar("OLDPWD", env) + 7);
+					else
+						status = chdir(args[1]);
+				}
 				else
-					chdir(getenvvar("HOME", env) + 5);
-				printf("current: %s\n", getcwd(cwd, cwd_size));
+					status = chdir(getenvvar("HOME", env) + 5);
+				if (!status)
+				{
+					setvar("OLDPWD", cwd, &env);
+					setvar("PWD", getcwd(cwd, cwd_size), &env);
+				}
 				continue;
 			}
 
 			check_exit(args);
 			filepath = get_file_path(
 					parse_string(getenvvar("PATH", env) + strlen("PATH") + 1, ':'), args[0]
-					);
+			);
 			check_filepath(filepath, args);
 		}
-
 		while (!filepath);
+
 		spawn_child(filepath, args, env);
 	}
 
