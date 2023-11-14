@@ -24,4 +24,5 @@ void spawn_child(char *filepath, char **args, char **env);
 void check_filepath(char *filepath, char **args);
 char **extend_env(char ***env, char *var);
 char **getenvvarptr(char *var, char **env);
+char *unset_var(char *var, char ***env);
 #endif

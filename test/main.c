@@ -41,11 +41,16 @@ int main(int argc, char **argv, char **env)
 			if (!strcmp("setenv", args[0]))
 			{
 				setvar(args[1], args[2], &env);
-				/* return (0); */
 				print_flattened_string(env);
 				continue;	
 			}
 
+			if (!strcmp("unset", args[0]))
+			{
+				unset_var(args[1], &env);
+				print_flattened_string(env);
+				continue;	
+			}
 
 			if (!strcmp(line, "env"))
 			{
