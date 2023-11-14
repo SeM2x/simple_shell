@@ -20,5 +20,7 @@ char *get_file_path(char **path, char *filename);
 void *print_flattened_string(char **v);
 size_t _getline(char **str, size_t *len, FILE *stream);
 void print_str(char *str);
+void spawn_child(char *filepath, char **args, char **env);
+void check_filepath(char *filepath, char **args);
 
 #endif
