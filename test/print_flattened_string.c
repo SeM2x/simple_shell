@@ -6,7 +6,7 @@
  *
  *Return: none
  */
-void *print_flattened_string(char **v)
+void print_flattened_string(char **v)
 {
 	while (*v)
 	{
