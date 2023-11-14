@@ -10,10 +10,8 @@
  */
 int main(int argc, char **argv, char **env)
 {
-	char *line;
-	char *filepath;
-	size_t letter_count = 100;
-	char **args;
+	char *line, *filepath, **args, *cwd;
+	size_t letter_count = 100, cwd_size = 50;
 
 	while (1)
 	{
@@ -34,6 +32,16 @@ int main(int argc, char **argv, char **env)
 			if (!strcmp(line, "env"))
 			{
 				print_flattened_string(env);
+				continue;
+			}
+			if (!strcmp(args[0], "cd"))
+			{
+				printf("old: %s\n", getcwd(cwd, cwd_size));
+				if (args[1])
+					chdir(args[1]);
+				else
+					chdir(getenvvar("HOME", env) + 5);
+				printf("current: %s\n", getcwd(cwd, cwd_size));
 				continue;
 			}
 
