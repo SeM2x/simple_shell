@@ -1,12 +1,15 @@
 #include "main.h"
 
-
-void exit_out(int code)
+/**
+ *main - the starting point.
+ *@argc: arguments count.
+ *@argv: the arguments array.
+ *@env: the enironment array.
+ *
+ *Return: 0.
+ */
+int main(int argc, char **argv, char **env)
 {
-	exit(code);
-}
-
-int main(int argc, char **argv, char **env) {
 	char *line;
 	char *filepath;
 	size_t letter_count = 100;
@@ -15,8 +18,7 @@ int main(int argc, char **argv, char **env) {
 	while (1)
 	{
 		filepath = NULL;
-		do
-		{
+		do {
 			print_str("$ ");
 			_getline(&line, &letter_count, stdin);
 			if (feof(stdin))
@@ -29,8 +31,6 @@ int main(int argc, char **argv, char **env) {
 			args = parse_string(line, ' ');
 			if (!args)
 				continue;
-
-			/* handling special functions: exit, env */
 			if (!strcmp(line, "env"))
 			{
 				print_flattened_string(env);
@@ -38,11 +38,13 @@ int main(int argc, char **argv, char **env) {
 			}
 
 			check_exit(args);
-			filepath = get_file_path(parse_string(getenvvar("PATH", env) + strlen("PATH") + 1, ':'), args[0]);
-			check_filepath(filepath, args);			
+			filepath = get_file_path(
+					parse_string(getenvvar("PATH", env) + strlen("PATH") + 1, ':'), args[0]
+					);
+			check_filepath(filepath, args);
 		}
-		while (!filepath);
 
+		while (!filepath);
 		spawn_child(filepath, args, env);
 	}
 

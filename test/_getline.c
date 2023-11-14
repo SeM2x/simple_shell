@@ -4,6 +4,7 @@
  *_getline - scans a string into a variable
  *@str: the string
  *@len: string length
+ *@stream: the stream
  *
  *Return: Number of read character.
  */
