@@ -17,7 +17,7 @@ char **parse_string(char *str, char separator);
 char *cat(char *one, char *two);
 char *strip(char *word);
 char *get_file_path(char **path, char *filename);
-void *print_flattened_string(char **v);
+void print_flattened_string(char **v);
 size_t _getline(char **str, size_t *len, FILE *stream);
 void print_str(char *str);
 void spawn_child(char *filepath, char **args, char **env);
@@ -25,4 +25,6 @@ void check_filepath(char *filepath, char **args);
 char **extend_env(char ***env, char *var);
 char **getenvvarptr(char *var, char **env);
 char *unset_var(char *var, char ***env);
+void setvar(char *varname, char *value, char ***env);
+void check_exit(char **args);
 #endif
