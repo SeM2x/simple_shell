@@ -40,6 +40,12 @@ int main(int argc, char **argv, char **env)
 				continue;	
 			}
 
+			if (!strcmp("unset", args[0]))
+			{
+				unset_var(args[1], &env);
+				print_flattened_string(env);
+				continue;	
+			}
 
 			if (!strcmp(line, "env"))
 			{
