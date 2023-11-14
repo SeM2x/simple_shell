@@ -1,12 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stddef.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <fcntl.h>
-#include <string.h>
-#include <unistd.h>
 #include "main.h"
 
 
@@ -18,7 +9,7 @@ void exit_out(int code)
 int main(int argc, char **argv, char **env) {
     char *line;
     char *filepath;
-    size_t letter_count = 0;
+    size_t letter_count = 100;
     char **args;
 		char *error_msg;
 
@@ -28,8 +19,9 @@ int main(int argc, char **argv, char **env) {
         do
         {
             printf("$ ");
-            getline(&line, &letter_count, stdin);
-
+            _getline(&line, &letter_count, stdin);
+	    if (feof(stdin))
+			    print_str("\n");
             if (!line[0])
 								exit(0);
 

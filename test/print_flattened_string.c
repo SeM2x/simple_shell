@@ -9,5 +9,8 @@
 void *print_flattened_string(char **v)
 {
 	while(*v)
-		printf("%s\n", *v++);
+	{
+		print_str(*v++);
+		printf("\n");
+	}
 }
