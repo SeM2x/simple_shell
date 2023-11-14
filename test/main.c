@@ -10,6 +10,11 @@
  */
 int main(int argc, char **argv, char **env)
 {
+
+	/* setvar("USER", "HOUSSEM IS THE BEST", &env); */
+	/* print_flattened_string(env); */
+	/* return 0; */
+
 	char *line;
 	char *filepath;
 	size_t letter_count = 100;
@@ -31,6 +36,17 @@ int main(int argc, char **argv, char **env)
 			args = parse_string(line, ' ');
 			if (!args)
 				continue;
+
+			/* here's the setenv buisness */
+			if (!strcmp("setenv", args[0]))
+			{
+				setvar(args[1], args[2], &env);
+				/* return (0); */
+				print_flattened_string(env);
+				continue;	
+			}
+
+
 			if (!strcmp(line, "env"))
 			{
 				print_flattened_string(env);
@@ -40,11 +56,11 @@ int main(int argc, char **argv, char **env)
 			check_exit(args);
 			filepath = get_file_path(
 					parse_string(getenvvar("PATH", env) + strlen("PATH") + 1, ':'), args[0]
-					);
+			);
 			check_filepath(filepath, args);
 		}
-
 		while (!filepath);
+
 		spawn_child(filepath, args, env);
 	}
 
