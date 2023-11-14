@@ -18,17 +18,16 @@ int main(int argc, char **argv, char **env) {
         filepath = NULL;
         do
         {
-            printf("$ ");
+            print_str("$ ");
             _getline(&line, &letter_count, stdin);
 	    if (feof(stdin))
 			    print_str("\n");
             if (!line[0])
-								exit(0);
+		    exit(0);
 
             line[strlen(line) - 1] = 0;
             line = strip(line);
             args = parse_string(line, ' ');
-
             if (!args)
                 continue;
 
@@ -39,9 +38,11 @@ int main(int argc, char **argv, char **env) {
 							continue;
 						}
 
-						if (!strcmp(line, "exit"))
+						if (!strcmp(args[0], "exit"))
 						{
-							printf("exiting ...\n");	
+							printf("exiting ...\n");
+							if (args[1])
+								exit(atoi(args[1]));
 							exit(0);
 						}
 
