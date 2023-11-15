@@ -21,7 +21,7 @@ void print_flattened_string(char **v);
 size_t _getline(char **str, size_t *len, FILE *stream);
 void print_str(char *str);
 void spawn_child(char *filepath, char **args, char **env);
-void check_filepath(char *filepath, char **args);
+void check_filepath(char *filepath, char **args, char *arg_0);
 char **extend_env(char ***env, char *var);
 char **getenvvarptr(char *var, char **env);
 char *unset_var(char *var, char ***env);

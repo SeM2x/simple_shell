@@ -8,24 +8,25 @@
  *
  *Return: 0.
  */
-extern char **environ;
 
-int main(void)
+int main(int argc, char **argv, char **env)
 {
-	char *line, *filepath, **args, *cwd, **env;
+	char *line, *filepath, **args, *cwd;
 	size_t letter_count = 100, cwd_size = 50;
 	int status;
 
-	env = environ;
+	if (!argc)
+		return (1);
 
 	cwd = malloc(cwd_size * sizeof(char));
 	while (1)
 	{
 		filepath = NULL;
 		do {
-			print_str("$ ");
+			if (isatty(STDIN_FILENO))
+				print_str("$ ");
 			_getline(&line, &letter_count, stdin);
-			if (feof(stdin))
+			if (feof(stdin) && isatty(STDIN_FILENO))
 				print_str("\n");
 			if (!line[0])
 				exit(0);
@@ -80,7 +81,7 @@ int main(void)
 			filepath = get_file_path(
 					parse_string(getenvvar("PATH", env) + strlen("PATH") + 1, ':'), args[0]
 			);
-			check_filepath(filepath, args);
+			check_filepath(filepath, args, argv[0]);
 		}
 		while (!filepath);
 
