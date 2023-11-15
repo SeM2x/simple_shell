@@ -1,3 +1,3 @@
 clear;
-gcc -Wall -Werror -std=c89 *.c -o main;
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o main;
 ./main

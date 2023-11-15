@@ -8,11 +8,15 @@
  *
  *Return: 0.
  */
-int main(int argc, char **argv, char **env)
+extern char **environ;
+
+int main(void)
 {
-	char *line, *filepath, **args, *cwd;
+	char *line, *filepath, **args, *cwd, **env;
 	size_t letter_count = 100, cwd_size = 50;
 	int status;
+
+	env = environ;
 
 	cwd = malloc(cwd_size * sizeof(char));
 	while (1)
