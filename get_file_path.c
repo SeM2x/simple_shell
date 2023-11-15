@@ -11,6 +11,11 @@ char *get_file_path(char **path, char *filename)
 {
 	char *current_path;
 	struct stat filestats;
+	size_t current_letter;
+
+	for (current_letter = 0; filename[current_letter]; current_letter++)
+		if (filename[current_letter] == '/')
+			return (filename);
 
 	while (is_space(*filename) && *filename)
 		filename++;
