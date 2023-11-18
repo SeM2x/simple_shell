@@ -15,7 +15,7 @@ void spawn_child(char *filepath, char **args, char **env)
 
 	if (child < 0)
 	{
-		perror("error spawning child\n");
+		perror("fork");
 		exit(1);
 	}
 	else

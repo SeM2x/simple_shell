@@ -20,8 +20,7 @@ char *strip(char *word)
 	word--;
 
 	while (is_space(*word))
-		*
-		word-- = 0;
+		*word-- = 0;
 
 	return (head);
 }

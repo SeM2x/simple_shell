@@ -8,23 +8,29 @@
  *
  *Return: 0.
  */
+
 int main(int argc, char **argv, char **env)
 {
-	char *line, *filepath, **args, *cwd;
+	char *line = NULL, *filepath = NULL, **args = NULL, *cwd = NULL, **parsed_string = NULL;
 	size_t letter_count = 100, cwd_size = 50;
-	int status;
+	int status, i;
+
+	if (!argc)
+		return (1);
 
 	cwd = malloc(cwd_size * sizeof(char));
 	while (1)
 	{
 		filepath = NULL;
 		do {
-			print_str("$ ");
+			if (isatty(STDIN_FILENO))
+				print_str("$ ");
 			_getline(&line, &letter_count, stdin);
 			if (feof(stdin))
+			{
 				print_str("\n");
-			if (!line[0])
-				exit(0);
+				break;
+			}
 
 			line[strlen(line) - 1] = 0;
 			line = strip(line);
@@ -36,14 +42,12 @@ int main(int argc, char **argv, char **env)
 			if (!strcmp("setenv", args[0]))
 			{
 				setvar(args[1], args[2], &env);
-				print_flattened_string(env);
 				continue;	
 			}
 
 			if (!strcmp("unset", args[0]))
 			{
 				unset_var(args[1], &env);
-				print_flattened_string(env);
 				continue;	
 			}
 
@@ -73,15 +77,28 @@ int main(int argc, char **argv, char **env)
 			}
 
 			check_exit(args);
-			filepath = get_file_path(
-					parse_string(getenvvar("PATH", env) + strlen("PATH") + 1, ':'), args[0]
-			);
-			check_filepath(filepath, args);
+			parsed_string = parse_string(getenvvar("PATH", env) + strlen("PATH") + 1, ':');
+			filepath = get_file_path(parsed_string, args[0]);
+			check_filepath(filepath, args, argv[0]);
 		}
 		while (!filepath);
-
+		if (feof(stdin))
+			break;
 		spawn_child(filepath, args, env);
-	}
 
+	}
+	free(cwd);
+	free(line);
+	free(filepath);
+	if (parsed_string)
+	{
+		for (i = 0; parsed_string[i]; i++)
+			free(parsed_string[i]);
+	}
+	if (args)
+	{
+		for (i = 0; args[i]; i++)
+			free(args[i]);
+	}
 	return (0);
 }
