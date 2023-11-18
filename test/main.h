@@ -27,4 +27,5 @@ char **getenvvarptr(char *var, char **env);
 char *unset_var(char *var, char ***env);
 void setvar(char *varname, char *value, char ***env);
 void check_exit(char **args);
+void free_array(char **array);
 #endif

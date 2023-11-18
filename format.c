@@ -19,19 +19,12 @@ char **format(char *cmd, char sep)
 	k = 0;
 
 	tmp = malloc(20* sizeof(char*));
-	if (tmp == NULL)
-		return (NULL);
 
 	for (i = 0; i < strlen(cmd) + 1; i++)
 	{
 		if (cmd[i] == sep || cmd[i] == '\0')
 		{
 			tmp[k] = malloc((j + 1) *sizeof(char));
-			if (tmp[k] == NULL)
-			{
-				free_array(tmp);
-				return (NULL);
-			}
 
 			buff[j] = '\0';
 			strcpy(tmp[k], buff);

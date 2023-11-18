@@ -1,5 +1,17 @@
 #include "main.h"
 
+void free_mem(char *c, char *l, char *f, char **p, char **a)
+{
+	if (c)
+        	free(c);
+	if (f)
+        	free(l);
+	if (f)
+        	free(f);
+        free_array(p);
+        free_array(a);
+}
+
 /**
  *main - the starting point.
  *@argc: arguments count.
@@ -13,7 +25,7 @@ int main(int argc, char **argv, char **env)
 {
 	char *line = NULL, *filepath = NULL, **args = NULL, *cwd = NULL, **parsed_string = NULL;
 	size_t letter_count = 100, cwd_size = 50;
-	int status, i;
+	int status;
 
 	if (!argc)
 		return (1);
@@ -85,20 +97,10 @@ int main(int argc, char **argv, char **env)
 		if (feof(stdin))
 			break;
 		spawn_child(filepath, args, env);
+		free_mem(cwd, line, filepath, parsed_string, args);
 
 	}
-	free(cwd);
-	free(line);
-	free(filepath);
-	if (parsed_string)
-	{
-		for (i = 0; parsed_string[i]; i++)
-			free(parsed_string[i]);
-	}
-	if (args)
-	{
-		for (i = 0; args[i]; i++)
-			free(args[i]);
-	}
+	free_mem(cwd, line, filepath, parsed_string, args);
+
 	return (0);
 }
