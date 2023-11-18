@@ -22,4 +22,5 @@ void scan_str(char *str, unsigned int len)
 	}
 
 	str[strcspn(str, "\n")] = '\0';
+	str = strip(str);
 }

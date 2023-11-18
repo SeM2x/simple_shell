@@ -18,6 +18,6 @@ char **format (char *cmd, char sep);
 char **get_path(char **env);
 char *str_concat(const char *str1, const char *str2);
 void free_array(char **array, size_t size);
-void strip(char *str);
+char *strip(char *str);
 
 #endif

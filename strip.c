@@ -1,23 +1,26 @@
 #include "main.h"
 
-void strip(char *str) {
-	char *end;
-    if (str == NULL) {
-        return;
-    }
+/**
+ *strip - remove spaces from both sides a string
+ *@word: the string
+ *
+ *Return: a pointer to the striped string.
+ */
+char *strip(char *word)
+{
+	char *head;
 
-    while (isspace((unsigned char)*str)) {
-        str++;
-    }
+	while (*word && isspace(*word))
+		word++;
 
-    if (*str == '\0') {
-        return;
-    }
+	head = word;
 
-    end = str + strlen(str) - 1;
-    while (end > str && isspace((unsigned char)*end)) {
-        end--;
-    }
+	while (*word)
+		word++;
+	word--;
 
-    *(end + 1) = '\0';
+	while (isspace(*word))
+		*word-- = 0;
+
+	return (head);
 }

@@ -20,7 +20,6 @@ int main(int argc, char **argv)
 		if (isatty(STDIN_FILENO))
 			print_str("#simple_shell$ ");
 		scan_str(command, 100);
-		strip(command);
 		av = format(command, ' ');
 		if (feof(stdin))
 			break;
@@ -30,7 +29,6 @@ int main(int argc, char **argv)
                         if (command[i] == ' ')
                                 count++;
                 }
-
 		av[count] = NULL;
 		if (av[0][0] != '\0')
 		{
