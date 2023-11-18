@@ -18,13 +18,13 @@ char **format(char *cmd, char sep)
 	j = 0;
 	k = 0;
 
-	tmp = malloc(20* sizeof(char*));
+	tmp = malloc(20 * sizeof(char *));
 
 	for (i = 0; i < strlen(cmd) + 1; i++)
 	{
 		if (cmd[i] == sep || cmd[i] == '\0')
 		{
-			tmp[k] = malloc((j + 1) *sizeof(char));
+			tmp[k] = malloc((j + 1) * sizeof(char));
 
 			buff[j] = '\0';
 			strcpy(tmp[k], buff);

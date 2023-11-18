@@ -2,6 +2,8 @@
 
 /**
  * main - entry point
+ * @argc: args count
+ * @argv: args vector
  *
  * Return: 0
 */
@@ -12,7 +14,7 @@ int main(int argc, char **argv)
 	int i, count;
 
 	av = NULL;
-	
+
 	if (argc < 0)
 		return (1);
 	while (1)
@@ -24,11 +26,12 @@ int main(int argc, char **argv)
 		if (feof(stdin))
 			break;
 		count = 1;
-                for (i = 0; i < (int)strlen(command) ; i++)
-                {
-                        if (command[i] == ' ')
-                                count++;
-                }
+		for (i = 0; i < (int) strlen(command); i++)
+		{
+			if (command[i] == ' ')
+				count++;
+		}
+
 		av[count] = NULL;
 		if (av[0][0] != '\0')
 		{
@@ -39,7 +42,6 @@ int main(int argc, char **argv)
 		}
 
 		free_array(av, count + 1);
-
 	}
 
 	free(av[0]);

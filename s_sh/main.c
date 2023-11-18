@@ -20,6 +20,7 @@ int main(int argc, char **argv)
 		if (isatty(STDIN_FILENO))
 			print_str("#simple_shell$ ");
 		scan_str(command, 100);
+		printf("===%s==\n", command);
 		av = format(command, ' ');
 		if (feof(stdin))
 			break;

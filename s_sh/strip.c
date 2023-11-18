@@ -10,7 +10,7 @@ char *strip(char *word)
 {
 	char *head;
 
-	while (*word && isspace(*word))
+	while (word && isspace(*word))
 		word++;
 
 	head = word;

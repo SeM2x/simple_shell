@@ -1,5 +1,12 @@
 #include "main.h"
 
+/**
+ * free_array - frees ana rray
+ * @array: the array
+ * @size: array's length
+ *
+ * Return: Void.
+*/
 void free_array(char **array, size_t size)
 {
 	size_t i;
