@@ -13,7 +13,9 @@ char **format(char *cmd, char sep)
 	int j, k;
 	char buff[20];
 	char **tmp;
-
+	
+	if (!cmd)
+		return (NULL);
 	buff[0] = '\0';
 	j = 0;
 	k = 0;

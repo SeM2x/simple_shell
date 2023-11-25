@@ -8,7 +8,7 @@
  *
  * Return: Void.
 */
-void exec_cmd(char **command, char *main_arg, int len)
+void exec_cmd(char **command, char *main_arg, int len, char **cmd)
 {
 	char **env = environ;
 	/*char **path;*/
@@ -34,6 +34,7 @@ void exec_cmd(char **command, char *main_arg, int len)
 		*/
 		perror(main_arg);
 		free_array(command, len);
+		free(*cmd);
 		exit(1);
 	}
 	else
