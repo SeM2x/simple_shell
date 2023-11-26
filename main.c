@@ -9,12 +9,12 @@
 */
 int main(int argc, char **argv)
 {
-	char *tmp, *command = "\0";
+	char *tmp, *command = "\0", cwd[1024];
 	char **av;
 	char **env = environ;
 	int i, count = 0, attempt = 0;
-	size_t size = 0;
-	int status = 0;
+	size_t size = 0, cwd_size = sizeof(cwd);
+	int status = 0, cd_status;
 
 	av = NULL;
 
@@ -78,6 +78,24 @@ int main(int argc, char **argv)
 			if (av[1])
 				unsetenv(av[1]);
 			env = environ;
+		}
+		else if (strcmp(av[0], "cd") == 0)
+		{	
+			getcwd(cwd, cwd_size);
+			if (av[1])
+			{
+				if (!strcmp(av[1], "-"))
+					cd_status = chdir(getenv("OLDPWD"));
+				else
+					cd_status = chdir(av[1]);
+			}
+			else
+				cd_status = chdir(getenv("HOME"));
+			if (!cd_status)
+			{
+				setenv("OLDPWD", cwd, 1);
+				setenv("PWD", getcwd(cwd, cwd_size), 1);
+			}
 		}
 		else if (av != NULL)
 			status = exec_cmd(av, argv[0], count, &command, attempt);
