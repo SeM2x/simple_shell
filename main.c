@@ -49,8 +49,16 @@ int main(int argc, char **argv)
 		{
 			free(command);
 
-			if (av[1] && atoi(av[1]))
-				status = atoi(av[1]);
+			if (av[1])
+			{
+				if (is_positive(av[1]))
+					status = atoi(av[1]);
+				else
+				{
+					printf("%s: %d: %s: Illegal number: %s\n",argv[0], attempt, av[0], av[1]);
+					status = 2;
+				}
+			}
 
 			free_array(av, count);
 			exit(status);

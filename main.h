@@ -21,5 +21,6 @@ void free_array(char **array, size_t size);
 char *strip(char *str);
 char *search_exec(char *command, char *path);
 void print_env(char **env);
+int is_positive(const char *str);
 
 #endif
