@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 	char **env = environ;
 	int i, count = 0, attempt = 0;
 	size_t size = 0, cwd_size = sizeof(cwd);
-	int status = 0, cd_status = -1;
+	int status = 0, cd_status = 0;
 
 	av = NULL;
 
@@ -87,12 +87,24 @@ int main(int argc, char **argv)
 				if (!strcmp(av[1], "-"))
 				{
 					if (getenv("OLDPWD"))
+					{
 						cd_status = chdir(getenv("OLDPWD"));
-					print_str(cwd);
+						print_str(getenv("OLDPWD"));
+					}
+					else
+						print_str(cwd);
 					print_str("\n");
 				}
 				else
+				{
 					cd_status = chdir(av[1]);
+					if(cd_status)
+					{
+						fprintf(stderr, "%s: %d: %s: can't cd to %s\n",
+							argv[0], attempt, av[0], av[1]);
+					}
+				}
+					
 			}
 			else
 				if (getenv("HOME"))
@@ -102,9 +114,6 @@ int main(int argc, char **argv)
 				setenv("OLDPWD", cwd, 1);
 				setenv("PWD", getcwd(cwd, cwd_size), 1);
 			}
-			else
-				fprintf(stderr, "%s: %d: %s: can't cd to %s\n",
-					argv[0], attempt, av[0], av[1]);
 		}
 		else if (av != NULL)
 			status = exec_cmd(av, argv[0], count, &command, attempt);
