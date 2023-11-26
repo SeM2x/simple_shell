@@ -11,6 +11,6 @@ void print_env(char **v)
 	while (*v)
 	{
 		print_str(*v++);
-		printf("\n");
+		print_str("\n");
 	}
 }

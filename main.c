@@ -7,10 +7,11 @@
  *
  * Return: 0
 */
-int main(int argc, char **argv, char **env)
+int main(int argc, char **argv)
 {
 	char *tmp, *command = "\0";
 	char **av;
+	char **env = environ;
 	int i, count = 0, attempt = 0;
 	size_t size = 0;
 	int status = 0;
