@@ -20,5 +20,6 @@ char *str_concat(const char *str1, const char *str2);
 void free_array(char **array, size_t size);
 char *strip(char *str);
 char *search_exec(char *command, char *path);
+void print_env(char **env);
 
 #endif

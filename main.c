@@ -7,7 +7,7 @@
  *
  * Return: 0
 */
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **env)
 {
 	char *tmp, *command = "\0";
 	char **av;
@@ -50,7 +50,10 @@ int main(int argc, char **argv)
 			free(command);
 			exit(status);
 		}
-		if (av != NULL)
+		else if (strcmp(av[0], "env") == 0)
+			print_env(env);
+
+		else if (av != NULL)
 			status = exec_cmd(av, argv[0], count, &command, attempt);
 
 		free_array(av, count);
