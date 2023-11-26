@@ -16,13 +16,9 @@ int exec_cmd(char **command, char *main_arg, int len, char **cmd, int count)
 	char *path = getenv("PATH");
 	if (!path)
 		path = "";
+
 	exec_path = search_exec(command[0], path);
 
-	if (!exec_path && command[0][0] != '/' && command[0][0] != '.')
-	{
-		fprintf(stderr, "%s: %d: %s: not found\n",main_arg, count, command[0]);
-		return(127);
-	}
 	pid = fork();
 	if (pid < 0)
 	{
@@ -31,12 +27,15 @@ int exec_cmd(char **command, char *main_arg, int len, char **cmd, int count)
 	}
 	if (pid == 0)
 	{
-		if (command[0][0] != '/')
+		execve(command[0], command, env);
+		if (exec_path)
+		{
 			execve(exec_path, command, env);
+			perror(main_arg);
+		}
 		else
-			execve(command[0], command, env);
-		
-		perror(main_arg);
+			fprintf(stderr, "%s: %d: %s: not found\n",
+                                        main_arg, count, command[0]);	
 		free_array(command, len);
 		free(*cmd);
 		exit(1);
