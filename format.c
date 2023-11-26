@@ -43,5 +43,6 @@ char **format(char *cmd, size_t len, char sep)
 
 	tmp[len] = NULL;
 	free(buff);
+
 	return (tmp);
 }

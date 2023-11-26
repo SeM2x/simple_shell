@@ -45,5 +45,13 @@ char *strip(char *input)
 
 	result[j] = '\0';
 
+	for (i = 0; i < strlen(result); i++)
+		if (isspace(result[i]))
+		{
+			if (result[i + 1] == '#')
+				result[i] = '\0';
+
+		}
+
 	return (strdup(result));
 }
