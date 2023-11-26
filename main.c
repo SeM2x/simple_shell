@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 					status = atoi(av[1]);
 				else
 				{
-					printf("%s: %d: %s: Illegal number: %s\n",argv[0], attempt, av[0], av[1]);
+					fprintf(stderr, "%s: %d: %s: Illegal number: %s\n",argv[0], attempt, av[0], av[1]);
 					status = 2;
 				}
 			}
