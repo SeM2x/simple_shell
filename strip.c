@@ -6,17 +6,17 @@
  *
  *Return: a pointer to the striped string.
  */
-void strip(char **str)
+char *strip(char *input)
 {
-	char *input = *str;
 	size_t len = strlen(input);
-	char *result = (char*) malloc(len + 1);
+	char result[1024*1024];
 	size_t i, j = 0;
 	int prev_space = 1;
 
 	if (result == NULL)
 	{
 		perror("malloc");
+		free(result);
 		exit(EXIT_FAILURE);
 	}
 
@@ -41,9 +41,9 @@ void strip(char **str)
 	{
 		j--;
 	}
+	
 
 	result[j] = '\0';
-	
-	free(*str);	
-	*str = result;
+
+	return (strdup(result));
 }

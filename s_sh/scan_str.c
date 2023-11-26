@@ -7,9 +7,12 @@
  *
  * Return: Void.
 */
-void scan_str(char **str, unsigned int len)
+size_t scan_str(char **str, size_t *len)
 {
-	if (fgets(*str, len, stdin) == NULL)
+	size_t length;
+
+	length = getline(str, len, stdin);
+	if ((int)length == -1)
 	{
 		if (feof(stdin))
 		{
@@ -17,12 +20,8 @@ void scan_str(char **str, unsigned int len)
 				print_str("\n");
 		}
 		else
-			perror("fgets");
-		return;
+			perror("getline");
 	}
-
 	
-	/**str[strcspn(*str, "\n")] = '\0';*/
-	strip(str);
-	
+	return (length);	
 }

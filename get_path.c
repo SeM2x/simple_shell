@@ -10,12 +10,15 @@ char **get_path(char **env)
 {
 	char **path;
 	int i;
-
+	size_t len = 0;
+	
 	for (i = 0; env[i] != NULL; i++)
+		len++;
+	for (i = 0; i < (int) len; i++)
 	{
 		if (strstr(env[i], "PATH"))
 		{
-			path = format(env[i], ':');
+			path = format(env[i], len, ':');
 			break;
 		}
 	}
