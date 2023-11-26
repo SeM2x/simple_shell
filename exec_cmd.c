@@ -38,7 +38,7 @@ int exec_cmd(char **command, char *main_arg, int len, char **cmd, int count)
                                         main_arg, count, command[0]);	
 		free_array(command, len);
 		free(*cmd);
-		exit(1);
+		exit(127);
 	}
 	else
 	{
