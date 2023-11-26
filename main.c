@@ -47,8 +47,12 @@ int main(int argc, char **argv)
 
 		if (strcmp(av[0], "exit") == 0)
 		{
-			free_array(av, count);
 			free(command);
+
+			if (av[1] && atoi(av[1]))
+				status = atoi(av[1]);
+
+			free_array(av, count);
 			exit(status);
 		}
 		else if (strcmp(av[0], "env") == 0)
