@@ -43,7 +43,10 @@ int main(int argc, char **argv)
 		av = format(command, count, ' ');
 
 		if (strcmp(av[0], "exit") == 0)
+		{
+			free_array(av, count);
 			break;
+		}
 		if (av != NULL)
 			exec_cmd(av, argv[0], count, &command);
 

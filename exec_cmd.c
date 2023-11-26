@@ -13,7 +13,7 @@ void exec_cmd(char **command, char *main_arg, int len, char **cmd)
 	char **env = environ;
 	pid_t pid;
 	int status;
-	char *path = "/bin";
+	char *path = getenv("PATH");
 	char *exec_path = search_exec(command[0], path);
 
 	pid = fork();
