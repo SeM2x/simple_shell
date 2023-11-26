@@ -18,9 +18,9 @@ int exec_cmd(char **command, char *main_arg, int len, char **cmd, int count)
 		path = "";
 	exec_path = search_exec(command[0], path);
 
-	if (!exec_path && command[0][0] != '/')
+	if (!exec_path && command[0][0] != '/' && command[0][0] != '.')
 	{
-		printf("%s: %d: %s: not found\n",main_arg, count, command[0]);
+		fprintf(stderr, "%s: %d: %s: not found\n",main_arg, count, command[0]);
 		return(127);
 	}
 	pid = fork();
