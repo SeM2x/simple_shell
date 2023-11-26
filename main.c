@@ -85,12 +85,20 @@ int main(int argc, char **argv)
 			if (av[1])
 			{
 				if (!strcmp(av[1], "-"))
-					cd_status = chdir(getenv("OLDPWD"));
+				{
+					if (getenv("OLDPWD"))
+					{
+						cd_status = chdir(getenv("OLDPWD"));
+						print_str(getenv("OLDPWD"));
+						print_str("\n");
+					}
+				}
 				else
 					cd_status = chdir(av[1]);
 			}
 			else
-				cd_status = chdir(getenv("HOME"));
+				if (getenv("HOME"))
+					cd_status = chdir(getenv("HOME"));
 			if (!cd_status)
 			{
 				setenv("OLDPWD", cwd, 1);
