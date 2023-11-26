@@ -11,11 +11,11 @@
 void exec_cmd(char **command, char *main_arg, int len, char **cmd)
 {
 	char **env = environ;
-	/*char **path;*/
 	pid_t pid;
 	int status;
+	char *path = "/bin";
+	char *exec_path = search_exec(command[0], path);
 
-	/*path = get_path(env);*/
 	pid = fork();
 	if (pid < 0)
 	{
@@ -24,14 +24,13 @@ void exec_cmd(char **command, char *main_arg, int len, char **cmd)
 	}
 	if (pid == 0)
 	{
-		execve(command[0], command, env);
-		/**
-		* for (i = 0; path[i] != NULL; i++)
-		*	{
-		*	tmp = str_concat(path[i], command[0]);
-		*	execve(tmp, command, env);
-		* }
-		*/
+		if (command[0][0] == '/')
+			execve(command[0], command, env);
+		else
+		{
+			if (exec_path != NULL)
+				execve(exec_path, command, env);
+		}
 		perror(main_arg);
 		free_array(command, len);
 		free(*cmd);
@@ -40,7 +39,7 @@ void exec_cmd(char **command, char *main_arg, int len, char **cmd)
 	else
 	{
 		waitpid(pid, &status, 0);
+		/*free(path);*/
+		free(exec_path);
 	}
-
-	/*free_array(path);*/
 }

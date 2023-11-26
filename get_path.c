@@ -8,17 +8,29 @@
 */
 char **get_path(char **env)
 {
-	char **path;
-	int i;
-	size_t len = 0;
-	
-	for (i = 0; env[i] != NULL; i++)
-		len++;
-	for (i = 0; i < (int) len; i++)
+	char **path = malloc(3 * sizeof(char *));
+	path[0] = malloc(4);
+	strcpy(path[0], "yes");
+	path[1] = malloc(4);
+	strcpy(path[1], "huh");
+	path[2] = NULL;
+
+	if (!env)
+		return NULL;
+	/*
+	int i, j;
+	size_t len = 1;
+
+	for (i = 0; env[i]; i++)
 	{
 		if (strstr(env[i], "PATH"))
 		{
-			path = format(env[i], len, ':');
+			for (j = 0; j < (int) strlen(env[i]); j++)
+				if (env[i][j] == ':')
+					len++;
+			printf("pathlen: %ld\n", len);
+			path = format(env[i] + 4, len, ':');
+			path[len] = NULL;
 			break;
 		}
 	}
@@ -27,5 +39,6 @@ char **get_path(char **env)
 	{
 		path[i][strlen(path[i])] = '/';
 	}
+	*/
 	return (path);
 }

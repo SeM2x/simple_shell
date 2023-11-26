@@ -11,12 +11,11 @@ char **format(char *cmd, size_t len, char sep)
 {
 	size_t i;
 	int j, k;
-	char buff[20];
+	char *buff = NULL;
 	char **tmp;
 	
 	if (!cmd)
 		return (NULL);
-	buff[0] = '\0';
 	j = 0;
 	k = 0;
 
@@ -31,15 +30,18 @@ char **format(char *cmd, size_t len, char sep)
 			strcpy(tmp[k], buff);
 			k++;
 			j = 0;
+			free(buff);
+			buff = NULL;
 		}
 		else
 		{
+			buff = realloc(buff, (j + 2) * sizeof(char));
 			buff[j] = cmd[i];
 			j++;
 		}
 	}
 
 	tmp[len] = NULL;
-
+	free(buff);
 	return (tmp);
 }
