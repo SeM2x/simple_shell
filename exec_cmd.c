@@ -8,14 +8,21 @@
  *
  * Return: Void.
 */
-void exec_cmd(char **command, char *main_arg, int len, char **cmd)
+int exec_cmd(char **command, char *main_arg, int len, char **cmd, int count)
 {
-	char **env = environ;
+	char **env = environ, *exec_path;
 	pid_t pid;
-	int status;
+	int status = 0;
 	char *path = getenv("PATH");
-	char *exec_path = search_exec(command[0], path);
+	if (!path)
+		path = "";
+	exec_path = search_exec(command[0], path);
 
+	if (!exec_path && command[0][0] != '/')
+	{
+		printf("%s: %d: %s: not found\n",main_arg, count, command[0]);
+		return(127);
+	}
 	pid = fork();
 	if (pid < 0)
 	{
@@ -24,13 +31,11 @@ void exec_cmd(char **command, char *main_arg, int len, char **cmd)
 	}
 	if (pid == 0)
 	{
-		if (command[0][0] == '/')
-			execve(command[0], command, env);
+		if (command[0][0] != '/')
+			execve(exec_path, command, env);
 		else
-		{
-			if (exec_path != NULL)
-				execve(exec_path, command, env);
-		}
+			execve(command[0], command, env);
+		
 		perror(main_arg);
 		free_array(command, len);
 		free(*cmd);
@@ -39,7 +44,12 @@ void exec_cmd(char **command, char *main_arg, int len, char **cmd)
 	else
 	{
 		waitpid(pid, &status, 0);
-		/*free(path);*/
 		free(exec_path);
+		if (WIFEXITED(status)) {
+			return (WEXITSTATUS(status));
+		}
+		/*free(path);*/
 	}
+
+	return (status);
 }

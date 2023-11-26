@@ -11,8 +11,9 @@ int main(int argc, char **argv)
 {
 	char *tmp, *command = "\0";
 	char **av;
-	int i, count = 0;
+	int i, count = 0, attempt = 0;
 	size_t size = 0;
+	int status = 0;
 
 	av = NULL;
 
@@ -21,6 +22,7 @@ int main(int argc, char **argv)
 
 	while (1)
 	{
+		attempt++;
 		if (isatty(STDIN_FILENO))
 			print_str("#simple_shell$ ");
 		scan_str(&command, &size);
@@ -45,15 +47,18 @@ int main(int argc, char **argv)
 		if (strcmp(av[0], "exit") == 0)
 		{
 			free_array(av, count);
-			break;
+			free(command);
+			exit(status);
 		}
 		if (av != NULL)
-			exec_cmd(av, argv[0], count, &command);
+			status = exec_cmd(av, argv[0], count, &command, attempt);
 
 		free_array(av, count);
 		
 	}
 
 	free(command);
+	exit(status);
+
 	return (0);
 }

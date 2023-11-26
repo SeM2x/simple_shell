@@ -13,7 +13,7 @@ extern char **environ;
 
 void print_str(char *str);
 size_t scan_str(char **str, size_t *len);
-void exec_cmd(char **command, char *main_arg, int len, char **cmd);
+int exec_cmd(char **command, char *main_arg, int len, char **cmd, int attempt);
 char **format (char *cmd, size_t len, char sep);
 char **get_path(char **env);
 char *str_concat(const char *str1, const char *str2);
